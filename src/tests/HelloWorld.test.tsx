@@ -1,34 +1,26 @@
-import { describe, expect, test } from '@jest/globals';
-//import { getStudents } from "../pages/HelloWorld";
+import { expect, test } from '@jest/globals';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Student } from "../abstracts/export-models";
-import { useEffect, useState } from 'react';
-import { isExportSpecifier } from 'typescript';
+import HelloWorld from '../pages/HelloWorld';
+import CreateStudentForm from '../pages/CreateStudentForm';
+import { randomInt } from 'crypto';
 
-/// Test the fetching of students
 test(
-  // TEST IS NOT THE SAME AS REAL CODE VERSION!!!
-  "Test the fetched results of the function, function can't be null",
-  () => {
-    let studentList: Student[] = [];
-    let errorFound: Boolean = false;
-    let testRun: Boolean = false;
+  "Test fetching studens from DB",
+  async () => {
+    let studentsFetched = await Student.getAllStudents();
+    expect(studentsFetched).toBeDefined();
+  }
+); 
 
-    const fetchData = async () => {
-      testRun = true;
-      try {
-        const fetchedStudents = await Student.getAllStudents();
-        studentList = fetchedStudents;
-      } catch (error) {
-        errorFound = true;
-      }
-    }
-
-    fetchData();
-
-
-    expect(errorFound).toBe(false);
-    expect(testRun).toBe(true);
+test(
+  "Test Creation of new student with a random student id",
+  async () => {
+    const studenListBefore:Student[] = await Student.getAllStudents();
+    let randomId = randomInt(2300000);
+    let student:Student = new Student(randomId, "John", "Doe");
+    Student.createNewStudent({student});
+    const studentListAfter:Student[] = await Student.getAllStudents();
+    expect(studentListAfter).toHaveLength(studenListBefore.length + 1);
   }
 );
-
-

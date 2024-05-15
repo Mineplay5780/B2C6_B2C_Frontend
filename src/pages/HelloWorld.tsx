@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../logo.svg';
-import '../App.css';
+
 import { Navigate } from "react-router-dom";
 import { Student } from "../abstracts/export-models";
+import { CreateStudentForm } from "../abstracts/export-pages";
+
+import '../App.css';
+import '../styles/HelloWorld.css';
 
 export default function HelloWorld() {
   const [goToTicTacToeBoard, setGoToTicTacToeBoard] = useState(false);
@@ -32,10 +35,28 @@ export default function HelloWorld() {
 
   return (
     <div className="App">
-      <p>Hello World!</p>
+      <h1>Hello World!</h1>
       <button onClick={() => { setGoToTicTacToeBoard(true) }}>
         Go to the TicTacToe board
       </button>
+
+      <div className='student-container'>
+        <h1 className='student-container-titel'>List of Students</h1>
+        <div className='student-list-container'>
+          {students.map((student) => {
+            return (
+            <p key={student.id} className='student-list-element'>
+              {student.studentId}: {student.firstName} {student.lastName}
+            </p>
+            )
+          })}
+        </div>
+      </div>
+
+      <div>
+        <CreateStudentForm />
+      </div>
+
     </div>
   );
 }
