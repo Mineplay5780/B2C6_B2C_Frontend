@@ -1,4 +1,5 @@
-const urlApi = "http://127.0.0.1:8000/api/student/";
+//const urlApi = "http://127.0.0.1:8000/api/student/"; // local url
+const urlApi = "http://djangowebapp-backend-mvpteam4-deploydemo.azurewebsites.net/api/student/"; // web url
 
 export class Student {
   id?: number;
